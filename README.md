@@ -4,4 +4,4 @@
 ***
 ## clock.html
 Тут прикольные часики
-[Часики](ignatevm.github.io/clock.html "Часики")
+[Часики](https://ignatevm.github.io/clock.html "Часики")
