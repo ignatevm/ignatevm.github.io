@@ -1,6 +1,6 @@
 # ignatevm.github.io
-##index.html
+## index.html
 Тут находится приветствие
 ***
-##clock.html
+## clock.html
 Тут прикольные часики
