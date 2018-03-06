@@ -1,0 +1,199 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Личная страничка</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="js/external/_oldies/jquery-1.3.min.js"></script>
+		<script type="text/javascript" src="js/external/jquery.easing.1.3.min.js"></script>
+		<script type="text/javascript" src="js/external/jquery.mousewheel.min.js"></script>	
+  <script>
+	$(document).ready(function(){
+   $('a[href*=#]').bind("click", function(e){
+      var anchor = $(this);
+      $('html, body').stop().animate({
+         scrollTop: $(anchor.attr('href')).offset().top
+      }, 700);
+      e.preventDefault();
+   });
+   return false;
+});
+    </script>
+    <style type="text/css">
+	#clockbase {
+		width: 512px;
+		height: 512px;
+		position: relative;
+		margin: 0 auto;
+		background: url(clock.png) no-repeat;
+	}
+	#minutes {
+		width: 229px;
+		height: 229px;
+		position: absolute;
+		top: 200px;
+		left: 137px;
+		background: url(minutes-arm.png) no-repeat;
+	}
+	#hours {
+		width: 200px;
+		height: 200px;
+		position: absolute;
+		top: 220px;
+		left: 150px;
+		background: url(hours-arm.png) no-repeat left bottom;
+	}
+	#seconds {
+		width: 260px;
+		height: 260px;
+		position: absolute;
+		top: 184px;
+		left: 120px;
+		background: url(SECS.gif) no-repeat;
+		
+	}
+	#clockbase .min05 {background-position: left top;}
+	#clockbase .min10 {background-position: left -229px;}
+	#clockbase .min15 {background-position: left -458px;}
+	#clockbase .min20 {background-position: left -687px;}
+	#clockbase .min25 {background-position: left -916px;}
+	#clockbase .min30 {background-position: left -1145px;}
+	#clockbase .min35 {background-position: left -1374px;}
+	#clockbase .min40 {background-position: left -1603px;}
+	#clockbase .min45 {background-position: left -1832px;}
+	#clockbase .min50 {background-position: left -2061px;}
+	#clockbase .min55 {background-position: left -2290px;}
+	#clockbase .min00 {background-position: left -2519px;}
+	
+	#clockbase .hr1 {background-position: left top;}
+	#clockbase .hr2 {background-position: left -200px;}
+	#clockbase .hr3 {background-position: left -400px;}
+	#clockbase .hr4 {background-position: left -600px;}
+	#clockbase .hr5 {background-position: left -800px;}
+	#clockbase .hr6 {background-position: left -1000px;}
+	#clockbase .hr7 {background-position: left -1200px;}
+	#clockbase .hr8 {background-position: left -1400px;}
+	#clockbase .hr9 {background-position: left -1600px;}
+	#clockbase .hr10 {background-position: left -1800px;}
+	#clockbase .hr11 {background-position: left -2000px;}
+	#clockbase .hr12 {background-position: left -2200px;}
+	
+	*html #minutes {
+		background: url(minutes-arm.gif) no-repeat;
+	}
+	*html #hours {
+		background: url(hours-arm.gif) no-repeat left bottom;
+	}
+	</style>
+	
+	<script type="text/javascript" language="javascript">
+		var g_nLastTime = null;
+		
+		function cssClock(hourElementId, minuteElementId)
+		{
+			// Проверяем, нужно ли обновлять картинку
+			var objDate = new Date();
+			if(!g_nLastTime || g_nLastTime.getHours() > objDate.getHours() || g_nLastTime.getMinutes() <= (objDate.getMinutes() - 5))
+			{
+				// Проверяем параметры
+				if(!hourElementId || !minuteElementId) { return; }
+
+				// Получаем объекты элементов
+				var objHour = document.getElementById(hourElementId);
+				var objMinutes = document.getElementById(minuteElementId);
+				if (!objHour || !objMinutes) { return; }
+
+				// Получаем время
+				var nHour = objDate.getHours();
+				if (nHour > 12) { nHour -= 12; }  // Переключаемся с 24-х часовой системы на 12-и часовую
+				var nMinutes = objDate.getMinutes();
+
+				// Округляем время
+				var nRound = 5;
+				var nDiff = nMinutes % nRound;
+				if(nDiff != 0)
+				{
+					if (nDiff < 3) { nMinutes -= nDiff; } // Округление вниз
+					else { nMinutes += nRound - nDiff; } // Округление вверх
+				}
+				if(nMinutes > 59)
+				{
+					// Увеличиваем количество часов, если нужно
+					nHour++;
+					nMinutes = 0;
+				}
+
+				// Обновляем элементы страницы
+				objHour.className = 'hr' + nHour;
+				objMinutes.className = 'min' + nMinutes;
+
+				// Таймер для обновления часов каждые несколько минут
+				g_nLastTime = objDate;
+			}
+
+			// Устанавливаем таймер для вызова данной функции снова
+			setTimeout(function() { cssClock(hourElementId, minuteElementId); }, 60000); // Обновляем часы каждую минту
+		}
+	</script>
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script>
+$(function() {
+	var topstudio_offset_top = $('#topstudio').offset().top;
+	var topstudio = function(){
+		var scroll_top = $(window).scrollTop();
+		if (scroll_top > topstudio_offset_top) { 
+			$('#topstudio').css({ 'position': 'fixed', 'top':0, 'left':0 });
+		} else {
+			$('#topstudio').css({ 'position': 'relative' }); 
+		}   
+	};
+	topstudio();
+	$(window).scroll(function() {
+		 topstudio();
+	});
+	$('a[href="#"]').click(function(event){ 
+		event.preventDefault(); 
+	});
+	
+});
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="dbody" style="display:block; background-color: #AADBFF; background-image: url(images/topfon2.png); border-radius: 10px 10px 0 0; position:relative; font-family: Arial, Helvetica, sans-serif; font-size: 26pt; color: #00F; text-align: center; padding:12px 0;">
+<p>Личная страничка</p>
+</div>
+<div id="topstudio">
+
+<div class="dbody" style="height: 50px; background-color: #0C3; background-image: url(images/top-menu_1.png); -moz-box-shadow: 0 0 5px #999; -webkit-box-shadow: 0 0 5px #999; box-shadow: 0 0 5px #999;">
+<a href="index.php" class="ume" style="border-right: 1px solid #0C3; background-image: url(images/top-menu_1-1.png); background-position: 0 -50px;">Главная</a>
+<a href="https://ignatevm.github.io/clock.html" class="ume" style="border-right: 1px solid #0C3;">Часики</a>
+<a href="https://github.com/ignatevm/ignatevm.github.io/wiki/" class="ume" style="border-right: 1px solid #0C3;">Вики</a>
+<a href="https://ignatevm.github.io/wiki/UML-Диаграмма-объектов" class="ume" style="border-right: 1px solid #0C3;">Индивидуальное задание</a>
+<a href="#itop" class="uptop">↑</a>
+<span style="display:block; padding:5px; margin-left:680px;"></span>
+</div>
+</div>
+<div class="dbody" style="width:960px; height:500px; padding:20px; height: auto; background-color: #D8F5FF; background-image: url(images/fon-gb.png);">
+<h2>Проектирование информационных систем</h2>
+<div id="clockbase">
+	    <div id="hours"></div>
+	    <div id="minutes"></div>
+		<div id="seconds"></div>
+	</div>
+	<script type="text/javascript" language="javascript">
+	cssClock('hours', 'minutes');
+	</script>
+<p><a href="https://github.com/ignatevm">Ссылка на Github страницу</a></p>
+<p><a href="https://github.com/ignatevm/ignatevm.github.io">Ссылка на личный репозиторий</a></p>
+<p><a href="https://github.com/ignatevm/ignatevm.github.io/wiki/UML-Диаграмма-объектов">Ссылка на Wiki-страницу с заданием</a></p>
+</div>
+<div class="dbody" style="display:block; padding:10px 0; background-color: #72A2FF; border-radius:0 0 5px 5px; text-align:center;">
+<p><strong>Михаил Игнатьев <br>
+2018</strong></p>
+</div>
+</body>
+</html>
